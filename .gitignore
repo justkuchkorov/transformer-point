@@ -1,0 +1,6 @@
+# KiCad: local history (it has its own hidden git inside), lock files, personal view settings
+hardware/transformer-point/.history/
+*.lck
+*.kicad_prl
+fp-info-cache
+*-backups/

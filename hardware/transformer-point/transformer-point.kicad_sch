@@ -1,0 +1,3496 @@
+(kicad_sch
+	(version 20260306)
+	(generator "eeschema")
+	(generator_version "10.0")
+	(uuid "259c182f-d765-444f-aa83-f587d3f482ff")
+	(paper "A4")
+	(title_block
+		(title "Transformer point - field level (Part 1)")
+		(date "2026-11-04")
+		(rev "1")
+		(company "Abdi - github.com/justkuchkorov")
+		(comment 1 "FireBeetle 2 ESP32-E: two supply gauges (A0, A1) and a DS18B20 (D2)")
+		(comment 2 "Served to the PLC as a Modbus TCP server over Wi-Fi (code: Part 1, phase C)")
+		(comment 3 "Gauge live zero: dead supply 0.49 V, healthy 1.98 V, broken wire 0 V")
+		(comment 4 "USB power only. Nothing above 3.3 V on any pin. No mains.")
+	)
+	(lib_symbols
+		(symbol "Connector:TestPoint"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0.762)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "TP"
+				(at 0 6.858 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "TestPoint"
+				(at 0 5.08 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 5.08 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 5.08 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "test point"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "test point tp"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "Pin* Test*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "TestPoint_0_1"
+				(circle
+					(center 0 3.302)
+					(radius 0.762)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "TestPoint_1_1"
+				(pin passive line
+					(at 0 0 90)
+					(length 2.54)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "Device:R"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "R"
+				(at 2.032 0 90)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "R"
+				(at 0 0 90)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at -1.778 0 90)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Resistor"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "R res resistor"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "R_*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "R_0_1"
+				(rectangle
+					(start -1.016 -2.54)
+					(end 1.016 2.54)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "R_1_1"
+				(pin passive line
+					(at 0 3.81 270)
+					(length 1.27)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -3.81 90)
+					(length 1.27)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "Sensor_Temperature:DS18B20"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "U"
+				(at -3.81 6.35 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "DS18B20"
+				(at 6.35 6.35 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "Package_TO_SOT_THT:TO-92_Inline"
+				(at -25.4 -6.35 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" "http://datasheets.maximintegrated.com/en/ds/DS18B20.pdf"
+				(at -3.81 6.35 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Programmable Resolution 1-Wire Digital Thermometer TO-92"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "OneWire 1Wire Dallas Maxim"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "TO*92*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "DS18B20_0_1"
+				(rectangle
+					(start -5.08 5.08)
+					(end 5.08 -5.08)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(polyline
+					(pts
+						(xy -3.937 3.175) (xy -3.937 0)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -3.937 3.175) (xy -3.302 3.175)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -3.937 2.54) (xy -3.302 2.54)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -3.937 1.905) (xy -3.302 1.905)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -3.937 1.27) (xy -3.302 1.27)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -3.937 0.635) (xy -3.302 0.635)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start -3.937 3.175)
+					(mid -3.302 3.8073)
+					(end -2.667 3.175)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center -3.302 -2.54)
+					(radius 1.27)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy -2.667 3.175) (xy -2.667 0)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start -2.667 -1.905)
+					(end -3.937 0)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+			)
+			(symbol "DS18B20_1_1"
+				(pin power_in line
+					(at 0 -7.62 90)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 7.62 0 180)
+					(length 2.54)
+					(name "DQ"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 7.62 270)
+					(length 2.54)
+					(name "V_{DD}"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "transformer-point:FireBeetle2_ESP32-E"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 1.016)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "U"
+				(at -20.32 31.75 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "FireBeetle2_ESP32-E"
+				(at 0 31.75 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" "https://wiki.dfrobot.com/dfr0654-f/"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "DFRobot FireBeetle 2 ESP32-E, headers drawn in their real order, USB at the top"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "FireBeetle2_ESP32-E_0_1"
+				(rectangle
+					(start -20.32 25.4)
+					(end 20.32 -22.86)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(rectangle
+					(start -5.08 29.21)
+					(end 5.08 25.4)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(text "USB-C"
+					(at 0 27.305 0)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(text "Top view"
+					(at 0 22.86 0)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(text "ESP32-WROOM-32E"
+					(at 0 -7.62 0)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(text "antenna end"
+					(at 0 -20.32 0)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(symbol "FireBeetle2_ESP32-E_1_1"
+				(pin passive line
+					(at -22.86 22.86 0)
+					(length 2.54)
+					(name "RST"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "L1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_out line
+					(at -22.86 20.32 0)
+					(length 2.54)
+					(name "3V3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "L2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin no_connect line
+					(at -22.86 17.78 0)
+					(length 2.54)
+					(name "(blank)"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "L3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_out line
+					(at -22.86 15.24 0)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "L4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -22.86 12.7 0)
+					(length 2.54)
+					(name "EN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "L5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -22.86 10.16 0)
+					(length 2.54)
+					(name "18/SCK"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "L6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -22.86 7.62 0)
+					(length 2.54)
+					(name "23/MOSI"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "L7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -22.86 5.08 0)
+					(length 2.54)
+					(name "19/MISO"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "L8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -22.86 2.54 0)
+					(length 2.54)
+					(name "22/SCL"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "L9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -22.86 0 0)
+					(length 2.54)
+					(name "21/SDA"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "L10"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -22.86 -2.54 0)
+					(length 2.54)
+					(name "2/D9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "L11"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -22.86 -5.08 0)
+					(length 2.54)
+					(name "13/D7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "L12"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -22.86 -7.62 0)
+					(length 2.54)
+					(name "14/D6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "L13"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -22.86 -10.16 0)
+					(length 2.54)
+					(name "0/D5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "L14"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -22.86 -12.7 0)
+					(length 2.54)
+					(name "26/D3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "L15"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -22.86 -15.24 0)
+					(length 2.54)
+					(name "25/D2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "L16"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -22.86 -17.78 0)
+					(length 2.54)
+					(name "1/TX"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "L17"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -22.86 -20.32 0)
+					(length 2.54)
+					(name "3/RX"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "L18"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_out line
+					(at 22.86 12.7 180)
+					(length 2.54)
+					(name "VCC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "R1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_out line
+					(at 22.86 10.16 180)
+					(length 2.54)
+					(name "3V3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "R2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_out line
+					(at 22.86 7.62 180)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "R3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 22.86 5.08 180)
+					(length 2.54)
+					(name "22/SCL"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "R4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 22.86 2.54 180)
+					(length 2.54)
+					(name "21/SDA"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "R5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 22.86 0 180)
+					(length 2.54)
+					(name "15/A4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "R6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 22.86 -2.54 180)
+					(length 2.54)
+					(name "35/A3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "R7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 22.86 -5.08 180)
+					(length 2.54)
+					(name "34/A2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "R8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 22.86 -7.62 180)
+					(length 2.54)
+					(name "39/A1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "R9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 22.86 -10.16 180)
+					(length 2.54)
+					(name "36/A0"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "R10"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 22.86 -12.7 180)
+					(length 2.54)
+					(name "12/D13"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "R11"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 22.86 -15.24 180)
+					(length 2.54)
+					(name "4/D12"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "R12"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 22.86 -17.78 180)
+					(length 2.54)
+					(name "16/D11"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "R13"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 22.86 -20.32 180)
+					(length 2.54)
+					(name "17/D10"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "R14"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+	)
+	(junction
+		(at 114.3 77.47)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "06a0f3fa-78f5-4646-9359-84628032e9e1")
+	)
+	(junction
+		(at 114.3 53.34)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "0bf48940-5f61-4c3e-b236-eb24973d1da4")
+	)
+	(junction
+		(at 114.3 85.09)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "3f2c8d52-3cd7-4c78-80a4-4be368659fa9")
+	)
+	(junction
+		(at 144.78 58.42)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "4e3db983-2f10-4dbf-af1b-5eda542ccc26")
+	)
+	(junction
+		(at 134.62 22.86)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "53578d9c-dd16-4d3c-bfd7-425613d1ea10")
+	)
+	(junction
+		(at 127 85.09)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "624a6d9e-865f-4a21-b6a9-6b06bbd9d660")
+	)
+	(junction
+		(at 100.33 77.47)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "68f259f2-abfb-4e25-a483-c92be92a9a47")
+	)
+	(junction
+		(at 87.63 77.47)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "79087c94-2b3d-41da-ad5f-d1c9125aea81")
+	)
+	(junction
+		(at 127 77.47)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "905818da-333b-4a24-afa3-5d071b4a650a")
+	)
+	(junction
+		(at 100.33 53.34)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "a89e3dd4-8e8f-4788-949b-c16d40ed7486")
+	)
+	(junction
+		(at 147.32 53.34)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "adc83cd3-a85b-4641-b7b2-5d794fa61231")
+	)
+	(junction
+		(at 127 53.34)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "b05e45a3-6b16-43e1-8769-adb15c315e48")
+	)
+	(junction
+		(at 100.33 85.09)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "daa2e029-9030-4782-bde9-ae2a3565c2fa")
+	)
+	(junction
+		(at 134.62 30.48)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "f76eb233-7f56-4e4e-acea-2462bd61e9ad")
+	)
+	(no_connect
+		(at 195.58 91.44)
+		(uuid "0b6a48a7-3653-4212-a8b7-0dce0d372b3d")
+	)
+	(no_connect
+		(at 195.58 68.58)
+		(uuid "0e8b16c0-245a-4916-b4dc-2a731d3ec400")
+	)
+	(no_connect
+		(at 149.86 78.74)
+		(uuid "2380863c-4693-476d-b319-278e453b0b06")
+	)
+	(no_connect
+		(at 149.86 71.12)
+		(uuid "25846bd3-6fb9-458d-8999-d45898d6bf04")
+	)
+	(no_connect
+		(at 195.58 73.66)
+		(uuid "275ef969-1058-49ba-b303-e8862474edd8")
+	)
+	(no_connect
+		(at 195.58 66.04)
+		(uuid "2f7d44cf-a142-4553-b005-4b9dac64363d")
+	)
+	(no_connect
+		(at 149.86 50.8)
+		(uuid "39a21898-be09-4cf1-b7c5-653414591e15")
+	)
+	(no_connect
+		(at 195.58 88.9)
+		(uuid "3cc3a998-6087-497b-8762-b8343d19052f")
+	)
+	(no_connect
+		(at 149.86 83.82)
+		(uuid "50f8ccaa-3149-45f2-9941-017f0c174f4f")
+	)
+	(no_connect
+		(at 149.86 66.04)
+		(uuid "53a2f2c2-ed43-4b65-9c41-891924cef4e6")
+	)
+	(no_connect
+		(at 195.58 78.74)
+		(uuid "53e36d0d-7835-4338-aea7-8fdf634d2880")
+	)
+	(no_connect
+		(at 149.86 91.44)
+		(uuid "5da80630-91d2-4a9d-8c1a-8fd61af2e753")
+	)
+	(no_connect
+		(at 149.86 73.66)
+		(uuid "61a2e7ab-17a2-4db9-abf3-7b47044c54ed")
+	)
+	(no_connect
+		(at 149.86 81.28)
+		(uuid "6c6b0cae-a26f-4b61-aff3-6bff4dab0c47")
+	)
+	(no_connect
+		(at 195.58 71.12)
+		(uuid "7d4c7cf7-7144-4b38-bd47-ffb6ce96d424")
+	)
+	(no_connect
+		(at 195.58 76.2)
+		(uuid "7dc05c72-b641-4725-a823-daca8072bf11")
+	)
+	(no_connect
+		(at 149.86 60.96)
+		(uuid "8805c00a-7137-4e90-af21-504a650e325c")
+	)
+	(no_connect
+		(at 195.58 86.36)
+		(uuid "8a4afec0-5c76-48ff-a7dc-84f41101889f")
+	)
+	(no_connect
+		(at 149.86 68.58)
+		(uuid "ba674914-cefd-4aed-8323-7e98e94ab070")
+	)
+	(no_connect
+		(at 149.86 63.5)
+		(uuid "c730d9d5-bda1-47bf-80b5-9df16cf9228c")
+	)
+	(no_connect
+		(at 195.58 93.98)
+		(uuid "ce2b1acf-18f5-4810-8fd0-c8fea488eb8d")
+	)
+	(no_connect
+		(at 149.86 86.36)
+		(uuid "cee00ab3-90a1-4cdc-892d-23c3e4cc4e73")
+	)
+	(no_connect
+		(at 195.58 63.5)
+		(uuid "d88eec55-ab90-419e-b0da-cc0e42ae2903")
+	)
+	(no_connect
+		(at 195.58 60.96)
+		(uuid "f310a5e7-14e5-492b-a3b3-8ccc6cfad532")
+	)
+	(no_connect
+		(at 149.86 76.2)
+		(uuid "f3a32644-505f-4b06-865b-9930f06fda52")
+	)
+	(no_connect
+		(at 149.86 93.98)
+		(uuid "fe04e902-1a2e-406b-909d-779c26f001ad")
+	)
+	(wire
+		(pts
+			(xy 114.3 53.34) (xy 114.3 54.61)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0313d7d7-ed01-4592-8913-c84cf626b671")
+	)
+	(wire
+		(pts
+			(xy 198.12 99.06) (xy 83.82 99.06)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "042bf985-2f2e-45d0-960c-8c6049f6256b")
+	)
+	(wire
+		(pts
+			(xy 149.86 53.34) (xy 147.32 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1999cbb7-5b69-4963-845d-5cda331dddbe")
+	)
+	(wire
+		(pts
+			(xy 125.73 30.48) (xy 134.62 30.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1a38fc7a-5e9a-4345-9e7c-7ddb9a0d2b82")
+	)
+	(wire
+		(pts
+			(xy 140.97 88.9) (xy 140.97 30.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1a57e9c5-7f10-49fe-8b29-5d4e748884d2")
+	)
+	(wire
+		(pts
+			(xy 118.11 38.1) (xy 144.78 38.1)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2098871a-67b2-4ff1-b5df-bb9c5db2322e")
+	)
+	(wire
+		(pts
+			(xy 100.33 85.09) (xy 114.3 85.09)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2640c7c1-124c-4650-a7e2-9f02d272eb97")
+	)
+	(wire
+		(pts
+			(xy 87.63 53.34) (xy 100.33 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "33ffbfdd-2073-430e-9005-0db95a22c552")
+	)
+	(wire
+		(pts
+			(xy 195.58 83.82) (xy 196.85 83.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3eab9ee5-3884-4465-b17d-306bd32a5211")
+	)
+	(wire
+		(pts
+			(xy 87.63 85.09) (xy 100.33 85.09)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "49023aa3-e897-4afe-b878-c3d68b7c533e")
+	)
+	(wire
+		(pts
+			(xy 87.63 54.61) (xy 87.63 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4d385208-ca8d-4908-a6f8-faf701907f6f")
+	)
+	(wire
+		(pts
+			(xy 138.43 58.42) (xy 144.78 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4fec4b55-6ed1-4ba1-b1c4-1ccb3ed92f96")
+	)
+	(wire
+		(pts
+			(xy 87.63 77.47) (xy 100.33 77.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5345330b-956a-46df-aa63-de0f499cc830")
+	)
+	(wire
+		(pts
+			(xy 100.33 53.34) (xy 114.3 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "53f0a8b9-0d4a-4545-b7d2-55d3c5fedd9f")
+	)
+	(wire
+		(pts
+			(xy 111.76 97.79) (xy 111.76 77.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6e8625a0-7a02-40c2-babe-3d2f0256a1c5")
+	)
+	(wire
+		(pts
+			(xy 127 53.34) (xy 127 62.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7750dd1b-0220-447c-af29-1bfe71d394cc")
+	)
+	(wire
+		(pts
+			(xy 144.78 38.1) (xy 144.78 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "84909d14-6107-4dc9-a77e-e651adff05d8")
+	)
+	(wire
+		(pts
+			(xy 147.32 22.86) (xy 147.32 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8975c43f-467b-47af-8b5d-4f2c0961e528")
+	)
+	(wire
+		(pts
+			(xy 198.12 81.28) (xy 198.12 99.06)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9276324e-da03-4668-9ee1-7a28b71b473b")
+	)
+	(wire
+		(pts
+			(xy 138.43 85.09) (xy 138.43 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "939c6b59-04d5-4c46-8f8a-7a57b1ccdf39")
+	)
+	(wire
+		(pts
+			(xy 127 53.34) (xy 114.3 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9f189006-e436-4ff1-a410-041ecfbdbc4d")
+	)
+	(wire
+		(pts
+			(xy 149.86 88.9) (xy 140.97 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a09f433a-5afd-4e37-a379-caa5494d5707")
+	)
+	(wire
+		(pts
+			(xy 118.11 22.86) (xy 134.62 22.86)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a4272ddb-a883-49e3-aba3-2255a3189cef")
+	)
+	(wire
+		(pts
+			(xy 83.82 99.06) (xy 83.82 77.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a62afc3c-77df-4bbd-b81c-f267280b02bd")
+	)
+	(wire
+		(pts
+			(xy 100.33 53.34) (xy 100.33 62.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a685aaad-e951-4eac-bf39-5664b9bff8e6")
+	)
+	(wire
+		(pts
+			(xy 195.58 81.28) (xy 198.12 81.28)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "abd14540-9a2f-473e-bdf4-be96d0594a76")
+	)
+	(wire
+		(pts
+			(xy 111.76 77.47) (xy 114.3 77.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b41c2384-473b-409c-b006-07ef722c5eb8")
+	)
+	(wire
+		(pts
+			(xy 127 85.09) (xy 138.43 85.09)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b6438f80-3602-4c8a-8ed0-5eb20e26abd8")
+	)
+	(wire
+		(pts
+			(xy 114.3 77.47) (xy 127 77.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b898eb8c-cb8c-4cd2-928c-c4c80f67a479")
+	)
+	(wire
+		(pts
+			(xy 114.3 85.09) (xy 127 85.09)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cfbb436c-cd9b-42f3-80f8-aeeade69ccea")
+	)
+	(wire
+		(pts
+			(xy 83.82 77.47) (xy 87.63 77.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d0e74045-e7bc-4366-b9bf-9deaccf99022")
+	)
+	(wire
+		(pts
+			(xy 196.85 97.79) (xy 111.76 97.79)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d2c64040-67af-466d-97b0-2b08be289c75")
+	)
+	(wire
+		(pts
+			(xy 140.97 30.48) (xy 134.62 30.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d43b9e87-cdec-47a2-9cab-d2d9b88e95dd")
+	)
+	(wire
+		(pts
+			(xy 144.78 58.42) (xy 149.86 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e3212764-20a3-4249-b6c8-b96adfb87997")
+	)
+	(wire
+		(pts
+			(xy 134.62 22.86) (xy 147.32 22.86)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f2c06089-7751-4d71-9562-e1b4938d31f6")
+	)
+	(wire
+		(pts
+			(xy 147.32 53.34) (xy 127 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fe0bff67-4320-4f0d-bcb2-b8d4adb16584")
+	)
+	(wire
+		(pts
+			(xy 196.85 83.82) (xy 196.85 97.79)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fe4fdbfe-b400-4d59-b78d-b50b339e7d88")
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 114.3 73.66 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "163d4aa3-b568-4588-83b6-5cb0fa5dbcc0")
+		(property "Reference" "R3"
+			(at 116.84 72.3899 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "1k"
+			(at 116.84 74.9299 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 112.522 73.66 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 114.3 73.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 114.3 73.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "b97694cf-aef4-4481-b7fb-dcbd34857ef4")
+		)
+		(pin "1"
+			(uuid "3eeb559a-44b8-448f-b59a-f7620a1fe11b")
+		)
+		(instances
+			(project "transformer-point"
+				(path "/259c182f-d765-444f-aa83-f587d3f482ff"
+					(reference "R3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 114.3 66.04 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "27adfc1b-1205-4a26-bac5-9abfce42fad7")
+		(property "Reference" "R2"
+			(at 116.84 64.7699 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "4.7k"
+			(at 116.84 67.3099 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 112.522 66.04 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 114.3 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 114.3 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "1b14a3d8-de7d-44ce-a63a-13ca32dba298")
+		)
+		(pin "1"
+			(uuid "c69a0205-2084-4996-b7b4-8737df4a9651")
+		)
+		(instances
+			(project "transformer-point"
+				(path "/259c182f-d765-444f-aa83-f587d3f482ff"
+					(reference "R2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 87.63 73.66 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "2a45e7af-649d-4feb-bc4b-e9133690e4fe")
+		(property "Reference" "R11"
+			(at 90.17 72.3899 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "1k"
+			(at 90.17 74.9299 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 85.852 73.66 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 87.63 73.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 87.63 73.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "122334ba-5de0-4a2b-bf14-592880b8e217")
+		)
+		(pin "1"
+			(uuid "b8cf54d2-1394-4a97-97d3-aa903a8a106c")
+		)
+		(instances
+			(project "transformer-point"
+				(path "/259c182f-d765-444f-aa83-f587d3f482ff"
+					(reference "R11")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 114.3 81.28 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "2ec867e2-6c0f-4e94-8f98-28ffaee131d1")
+		(property "Reference" "R8"
+			(at 116.84 80.0099 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "1M"
+			(at 116.84 82.5499 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 112.522 81.28 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 114.3 81.28 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 114.3 81.28 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "5b23db9b-c993-4126-ad1e-7613a434831f")
+		)
+		(pin "1"
+			(uuid "2977497d-f1bc-407e-8105-bf00361a2c63")
+		)
+		(instances
+			(project "transformer-point"
+				(path "/259c182f-d765-444f-aa83-f587d3f482ff"
+					(reference "R8")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 87.63 81.28 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "3d714f04-d7b1-4ed7-93dc-332655901167")
+		(property "Reference" "R12"
+			(at 90.17 80.0099 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "1M"
+			(at 90.17 82.5499 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 85.852 81.28 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 87.63 81.28 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 87.63 81.28 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "64d7054a-ae50-4642-a40b-9fd176b9b19a")
+		)
+		(pin "1"
+			(uuid "e0e0b2be-9d56-4193-8636-3aa301c22142")
+		)
+		(instances
+			(project "transformer-point"
+				(path "/259c182f-d765-444f-aa83-f587d3f482ff"
+					(reference "R12")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 100.33 66.04 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "410c5c06-417c-4272-b6ba-6d5ec7022908")
+		(property "Reference" "R13"
+			(at 102.87 64.7699 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100k"
+			(at 102.87 67.3099 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 98.552 66.04 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 100.33 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 100.33 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "5b46eb4f-fb24-4f4f-a911-8e3aa4525972")
+		)
+		(pin "1"
+			(uuid "c24ae44d-5270-4f75-befd-c535f245d43c")
+		)
+		(instances
+			(project "transformer-point"
+				(path "/259c182f-d765-444f-aa83-f587d3f482ff"
+					(reference "R13")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 127 73.66 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "4edaeb4a-6444-4619-a196-bd8a7ad2fe0b")
+		(property "Reference" "R5"
+			(at 129.54 72.3899 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "22k"
+			(at 129.54 74.9299 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 125.222 73.66 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 127 73.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 127 73.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "b5ddaf60-c6ec-4e45-a230-23c310768b68")
+		)
+		(pin "1"
+			(uuid "aa0c7635-c65a-4c24-b6e8-ac5c96820da1")
+		)
+		(instances
+			(project "transformer-point"
+				(path "/259c182f-d765-444f-aa83-f587d3f482ff"
+					(reference "R5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Sensor_Temperature:DS18B20")
+		(at 118.11 30.48 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "5b1d6714-610d-4a3b-ba75-2af65004d119")
+		(property "Reference" "U1"
+			(at 111.76 29.2099 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "DS18B20"
+			(at 111.76 31.7499 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_THT:TO-92_Inline"
+			(at 92.71 36.83 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "http://datasheets.maximintegrated.com/en/ds/DS18B20.pdf"
+			(at 114.3 24.13 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Programmable Resolution 1-Wire Digital Thermometer TO-92"
+			(at 118.11 30.48 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "3"
+			(uuid "8a564960-2795-4598-b50c-9b93d85bd8f5")
+		)
+		(pin "2"
+			(uuid "97ed1795-2312-4e44-b38c-1cace590cdd1")
+		)
+		(pin "1"
+			(uuid "5e4c840c-9785-4518-8927-637493ee6ef7")
+		)
+		(instances
+			(project "transformer-point"
+				(path "/259c182f-d765-444f-aa83-f587d3f482ff"
+					(reference "U1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 127 66.04 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "722c0530-aee6-4720-a432-aceee4885773")
+		(property "Reference" "R4"
+			(at 129.54 64.7699 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100k"
+			(at 129.54 67.3099 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 125.222 66.04 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 127 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 127 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "43f1e1f7-43a2-4d46-8c13-1001eddd5f30")
+		)
+		(pin "1"
+			(uuid "5822f0a3-e8cb-4baa-91a3-9d8d7ad89f30")
+		)
+		(instances
+			(project "transformer-point"
+				(path "/259c182f-d765-444f-aa83-f587d3f482ff"
+					(reference "R4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 87.63 66.04 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "864372f1-0f33-4d30-9ec6-d06ccdc65eb5")
+		(property "Reference" "R10"
+			(at 90.17 64.7699 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "4.7k"
+			(at 90.17 67.3099 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 85.852 66.04 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 87.63 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 87.63 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "dd58d4b6-32e9-493f-9cdc-379d6ae6f98f")
+		)
+		(pin "1"
+			(uuid "52173618-934c-4daf-85ae-f14b2ba59429")
+		)
+		(instances
+			(project "transformer-point"
+				(path "/259c182f-d765-444f-aa83-f587d3f482ff"
+					(reference "R10")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 100.33 73.66 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "88db310a-f173-44c6-80ac-85c0be760c70")
+		(property "Reference" "R14"
+			(at 102.87 72.3899 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "22k"
+			(at 102.87 74.9299 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 98.552 73.66 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 100.33 73.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 100.33 73.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "4f9ba245-c123-4143-9eba-49cd32012acb")
+		)
+		(pin "1"
+			(uuid "fe1090f2-d2d7-4971-b500-59903755e1db")
+		)
+		(instances
+			(project "transformer-point"
+				(path "/259c182f-d765-444f-aa83-f587d3f482ff"
+					(reference "R14")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 127 49.53 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "915ea3b8-9f2b-4bb5-99f9-4188af4b10d5")
+		(property "Reference" "R7"
+			(at 129.54 48.2599 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "47k"
+			(at 129.54 50.7999 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 125.222 49.53 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 127 49.53 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 127 49.53 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "2044b31a-cd93-4326-8d1f-2b918fcbf182")
+		)
+		(pin "1"
+			(uuid "928ddf2b-98e0-4b97-ae5e-74db82950dff")
+		)
+		(instances
+			(project "transformer-point"
+				(path "/259c182f-d765-444f-aa83-f587d3f482ff"
+					(reference "R7")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "transformer-point:FireBeetle2_ESP32-E")
+		(at 172.72 73.66 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "a2325cf5-bc6b-421c-85cd-e0d27fa59cb9")
+		(property "Reference" "U2"
+			(at 152.4 41.91 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "FireBeetle 2 ESP32-E (DFR0654-F)"
+			(at 158.75 41.91 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 172.72 73.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "https://wiki.dfrobot.com/dfr0654-f/"
+			(at 172.72 73.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 172.72 73.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "L1"
+			(uuid "167b9dfb-c11f-4566-8cd1-80329935b23c")
+		)
+		(pin "L2"
+			(uuid "08e66a1f-0838-4358-9df3-0ccbcac690a5")
+		)
+		(pin "L3"
+			(uuid "b2eff566-cfcc-41d5-af99-792e3e7c5626")
+		)
+		(pin "L4"
+			(uuid "f30db6d5-a1f1-4296-82a6-5da9b3e1d684")
+		)
+		(pin "L5"
+			(uuid "3dbd999c-0417-4666-8fae-ee69b6692e56")
+		)
+		(pin "L6"
+			(uuid "1d47fd1b-8876-4f03-85d1-7b8619172299")
+		)
+		(pin "L7"
+			(uuid "2513ad6c-b1a9-42c0-b040-f7e4e82dd24a")
+		)
+		(pin "L8"
+			(uuid "2bff1d24-d52c-4c6c-9560-78214d65ef17")
+		)
+		(pin "L9"
+			(uuid "fc1866af-a97b-4fcf-ae0c-620234e35366")
+		)
+		(pin "L10"
+			(uuid "fec842ef-17d7-4c70-a244-c444aaf3857f")
+		)
+		(pin "L11"
+			(uuid "2973dff1-b9b6-4187-86f0-bdf3df36104e")
+		)
+		(pin "L12"
+			(uuid "b2e68b2d-d566-44d6-b86c-93dbe2a2bfa7")
+		)
+		(pin "L13"
+			(uuid "672d919b-3845-49cf-bee6-8286fd82eab3")
+		)
+		(pin "L14"
+			(uuid "9129821e-079a-48d0-bd9e-e17c6ac14a04")
+		)
+		(pin "L15"
+			(uuid "3520095e-642b-4d49-b16e-8892a09288da")
+		)
+		(pin "L16"
+			(uuid "f5b3bfac-54c6-4081-b5d0-be605eb9cdcd")
+		)
+		(pin "L17"
+			(uuid "31b8802f-8eae-43db-bbd1-5fcb7dbd177c")
+		)
+		(pin "L18"
+			(uuid "f9d8c868-b21d-4c07-beba-4891b1e4497b")
+		)
+		(pin "R1"
+			(uuid "2de5404d-0a3a-468d-afd6-ae3fee04129d")
+		)
+		(pin "R2"
+			(uuid "ec46b9e9-6729-426c-b6ea-d847ec02d302")
+		)
+		(pin "R3"
+			(uuid "7c8eee7c-c436-4d62-8048-8be221837a97")
+		)
+		(pin "R4"
+			(uuid "009862ff-29c2-4141-ad42-5056586cc5a4")
+		)
+		(pin "R5"
+			(uuid "ce44cec9-2801-41a6-b5ae-7fe9c7987bd7")
+		)
+		(pin "R6"
+			(uuid "f2e881bf-1beb-47c4-94fa-737cd01aacbd")
+		)
+		(pin "R7"
+			(uuid "f4cd0e92-3fff-495c-8ccd-bb142efe9c6b")
+		)
+		(pin "R8"
+			(uuid "df004c3f-f144-43e8-9a7b-b131083906cd")
+		)
+		(pin "R9"
+			(uuid "f9dd0b84-1c86-4330-b843-ccf1511f653f")
+		)
+		(pin "R10"
+			(uuid "fc8f8d77-33d3-467c-a188-840d70efde23")
+		)
+		(pin "R11"
+			(uuid "6fcc8040-b131-44c5-97e6-f536f6f97b3c")
+		)
+		(pin "R12"
+			(uuid "29e591ee-989e-4d57-9b9f-bb366a5f45ad")
+		)
+		(pin "R13"
+			(uuid "b84bc444-6134-41e4-b587-da0757b3f0c3")
+		)
+		(pin "R14"
+			(uuid "afe52639-466e-4ae0-9a73-43ed7a0a1b6d")
+		)
+		(instances
+			(project "transformer-point"
+				(path "/259c182f-d765-444f-aa83-f587d3f482ff"
+					(reference "U2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 134.62 26.67 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "c4e893ee-d559-4693-89cd-0f1e87cb3f65")
+		(property "Reference" "R16"
+			(at 137.16 25.3999 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "4.7k"
+			(at 137.16 27.9399 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 132.842 26.67 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 134.62 26.67 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 134.62 26.67 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "f60a7538-554f-4716-a2f7-dd931816a917")
+		)
+		(pin "1"
+			(uuid "b1777436-2e3f-4fd9-893c-96e944d854dc")
+		)
+		(instances
+			(project "transformer-point"
+				(path "/259c182f-d765-444f-aa83-f587d3f482ff"
+					(reference "R16")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 127 81.28 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "d4a6584e-c68a-4c58-8261-1580525f441a")
+		(property "Reference" "R6"
+			(at 129.54 80.0099 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "22k"
+			(at 129.54 82.5499 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 125.222 81.28 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 127 81.28 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 127 81.28 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "c6ee6def-41ab-4c4b-b902-ec4107ed6b1a")
+		)
+		(pin "1"
+			(uuid "fc1adef6-5d1d-455e-85e7-bb6b7a16c0a3")
+		)
+		(instances
+			(project "transformer-point"
+				(path "/259c182f-d765-444f-aa83-f587d3f482ff"
+					(reference "R6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 87.63 58.42 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "e1a0e534-7ed4-4c52-8ea2-38d4fff6d8d2")
+		(property "Reference" "R9"
+			(at 90.17 57.1499 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "10k"
+			(at 90.17 59.6899 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 85.852 58.42 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 87.63 58.42 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 87.63 58.42 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "ff746fcd-898a-48f7-82eb-bcb977c81eee")
+		)
+		(pin "1"
+			(uuid "53a2162b-6c3a-4d2d-9899-8bdfc5f585e9")
+		)
+		(instances
+			(project "transformer-point"
+				(path "/259c182f-d765-444f-aa83-f587d3f482ff"
+					(reference "R9")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 100.33 81.28 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "e2b023fb-e9ed-46fc-bbea-f70552f64d55")
+		(property "Reference" "R15"
+			(at 102.87 80.0099 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "22k"
+			(at 102.87 82.5499 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 98.552 81.28 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 100.33 81.28 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 100.33 81.28 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "73e244d1-b926-473b-bec5-894f9ef2cc7e")
+		)
+		(pin "1"
+			(uuid "e8ae136c-c88e-4897-aad5-cd04612995d4")
+		)
+		(instances
+			(project "transformer-point"
+				(path "/259c182f-d765-444f-aa83-f587d3f482ff"
+					(reference "R15")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 114.3 58.42 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "e95eedb6-2f5b-4294-9163-2d4faadc6fe1")
+		(property "Reference" "R1"
+			(at 116.84 57.1499 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "10k"
+			(at 116.84 59.6899 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 112.522 58.42 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 114.3 58.42 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 114.3 58.42 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "440bd97e-e56e-4c97-b428-ef358bd1239e")
+		)
+		(pin "1"
+			(uuid "1142812f-d468-42ad-a841-cd1c97dc3f8f")
+		)
+		(instances
+			(project "transformer-point"
+				(path "/259c182f-d765-444f-aa83-f587d3f482ff"
+					(reference "R1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 127 45.72 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "86cf2e32-d76e-4760-aa50-9e8f4a4f9f4a")
+		(property "Reference" "TP1"
+			(at 129.54 41.91 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "SAG"
+			(at 129.54 44.45 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 132.08 45.72 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 132.08 45.72 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "test point"
+			(at 127 45.72 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "b5078f33-9f61-4945-876a-d8ae8036392d")
+		)
+		(instances
+			(project "transformer-point"
+				(path "/259c182f-d765-444f-aa83-f587d3f482ff"
+					(reference "TP1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(text "GAUGE 2 (BACKUP)"
+		(exclude_from_sim no)
+		(at 86.36 49.53 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "d6867626-8826-4536-8aca-36aad148b390")
+	)
+	(text "GAUGE 1 (MAIN)"
+		(exclude_from_sim no)
+		(at 107.95 49.53 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "4c2ac426-8e55-4aad-b28c-4a3c730bd9e0")
+	)
+	(text "NOTES\nGauge 1 = MAIN supply (R1-R8) -> A0 / GPIO36.   Gauge 2 = BACKUP supply (R9-R15) -> A1 / GPIO39.\nEach gauge: top 10k+4.7k+1k from the supply, bias 100k+22k from 3V3, bottom 22k to GND, 1M pull-down.\nDS18B20 (U1) on D2 / GPIO25 with a 4.7k pull-up (R16). The sensor cable shield is not connected.\nBreadboard tests, measured at the pin against GND (gauge 1 / gauge 2):\n   healthy: as drawn  ->  1.98 V / 1.98 V\n   sag: R1 supply wire moved from 3V3 to TP1 (SAG), so the supply comes through R7 47k  ->  1.10 V (gauge 1 only)\n   dead: supply wire unplugged, the 100k+22k bias keeps a live zero  ->  0.488 V / 0.489 V\n   broken wire: wire from the gauge to the ESP32 pin unplugged  ->  0 V / 0 V\n   (on the breadboard the 1M sits at the pin end of that wire, so a broken wire reads 0 V, not a floating value)\nPower: USB only. Nothing above 3.3 V on any pin. No mains anywhere."
+		(exclude_from_sim no)
+		(at 15.24 195.58 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "3cb43092-10c5-4c06-86e9-28771d960801")
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
+)

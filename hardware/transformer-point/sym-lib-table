@@ -1,0 +1,4 @@
+(sym_lib_table
+	(version 7)
+	(lib (name "transformer-point") (type "KiCad") (uri "${KIPRJMOD}/transformer-point.kicad_sym") (options "") (descr "FireBeetle 2 ESP32-E symbol for this project"))
+)
