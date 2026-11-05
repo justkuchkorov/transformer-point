@@ -4,3 +4,6 @@ hardware/transformer-point/.history/
 *.kicad_prl
 fp-info-cache
 *-backups/
+
+# Wi-Fi name and password stay on this laptop, never on GitHub
+secrets.h
