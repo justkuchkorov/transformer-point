@@ -7,3 +7,7 @@ fp-info-cache
 
 # Wi-Fi name and password stay on this laptop, never on GitHub
 secrets.h
+
+# PyCharm settings and the Python environment are personal to this laptop
+.idea/
+.venv/
