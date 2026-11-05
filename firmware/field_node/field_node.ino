@@ -18,6 +18,8 @@ unsigned long lastTimeWifi=0;
 unsigned long lastTimeVolt=0;
 const int SAMPLES=16;
 
+bool q1ClosedState=false;
+
 uint32_t readGaugeMv(uint8_t pin){
   uint32_t sumbox=0;
   for(int i=1;i<=SAMPLES;i++){
@@ -40,6 +42,12 @@ void setup() {
   bool coilOK=mb.addCoil(0,0,4);
   bool hregOK=mb.addHreg(0,0,2);
 
+  if(!iregOK | !istsOK | !coilOK | !hregOK){
+    Serial.println("WARNING: Modbus I/O Map configuration failed!");
+  }
+
+  pinMode(D9, OUTPUT);
+
   sensors.begin();
   sensors.setWaitForConversion(false);
   sensors.requestTemperatures();
@@ -50,6 +58,21 @@ void setup() {
 
 void loop() {
   mb.task();
+
+  if(mb.Coil(0)==1){
+    q1ClosedState=true;
+    mb.Coil(0,0);
+  }
+  
+  if(mb.Coil(1)==1){
+    q1ClosedState=false;
+    mb.Coil(1,0);
+  }
+
+  mb.Ists(0, q1ClosedState);
+  mb.Ists(1, !q1ClosedState);
+
+  digitalWrite(D9, q1ClosedState);
 
   unsigned long now=millis();
 
