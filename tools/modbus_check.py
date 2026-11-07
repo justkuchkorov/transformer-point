@@ -33,8 +33,13 @@ try:
             q1_closed = 1 if reaction.bits[0] else 0
             q1_open = 1 if reaction.bits[1] else 0
 
+            q2_closed = 1 if reaction.bits[2] else 0
+            q2_open = 1 if reaction.bits[3] else 0
+            q1_stuck = 1 if reaction.bits[5] else 0
+            q2_stuck = 1 if reaction.bits[6] else 0
+
             print(
-                f"U_MAIN={u_main} mV | U_BACKUP={u_backup} mV | Temp={temperature:.1f} °C | Heartbeat={heartbeat} | T_OK={t_ok} | Q1_CLOSED={q1_closed} | Q1_OPEN={q1_open}")
+                f"U_MAIN={u_main} mV | U_BACKUP={u_backup} mV | Temp={temperature:.1f} °C | Heartbeat={heartbeat} | T_OK={t_ok} | Q1_CLOSED={q1_closed} | Q1_OPEN={q1_open} | Q2_CLOSED={q2_closed} | Q2_OPEN={q2_open} | Q1_STUCK={q1_stuck} | Q2_STUCK={q2_stuck}")
 
         time.sleep(1.0)
 
