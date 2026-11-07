@@ -7,6 +7,10 @@
 ModbusIP mb;
 uint16_t heartbeatCounter = 0;
 
+IPAddress localIp(192, 168, 100, 48);
+IPAddress gatewayIp(192, 168, 100, 1);
+IPAddress subnetMask(255, 255, 255, 0);
+
 const uint8_t ONE_WIRE_PIN=D2;
 OneWire wired(ONE_WIRE_PIN);
 DallasTemperature sensors(&wired);
@@ -42,8 +46,13 @@ void setup() {
   Serial.println("field_node start");
 
   WiFi.mode(WIFI_STA);
+  bool IpOK = WiFi.config(localIp, gatewayIp, subnetMask);
   WiFi.begin(WIFI_SSID, WIFI_PASS);
 
+  if(!IpOK){
+    Serial.println("WARNING: IP failed!");
+  }
+   
   mb.server();
 
   bool iregOK=mb.addIreg(0,0,4);
