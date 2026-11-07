@@ -20,7 +20,8 @@ In real life, we may have some electricity problems. We have a main supply and a
 ## Status
 
 - **2026-11-04: Part 1 hardware done.** Both gauges built and measured, DS18B20 wired and checked, KiCad schematic drawn.
-- **Next:** the ESP32 code (reading the gauges, the DS18B20, the breaker simulator, the Modbus TCP server), then the Python test. Then Parts 2 to 4.
+- **2026-11-07: Part 1 code done.** The ESP32 reads both gauges and the DS18B20, simulates breakers Q1 and Q2 (closing time, position contacts, interlock, stuck test jumpers) and serves everything over Modbus TCP. Two Python tools read it and send it commands. Still to run on the breadboard: the stuck-jumper tests.
+- **Next:** Part 2, the ATS logic in CODESYS.
 
 ## Safety rules
 
@@ -45,9 +46,13 @@ PDF: [hardware/transformer-point.pdf](hardware/transformer-point.pdf). KiCad pro
 | A0 / GPIO36 | Gauge 1, main supply |
 | A1 / GPIO39 | Gauge 2, backup supply |
 | D2 / GPIO25 | DS18B20 data, with a 4.7k pull-up to 3.3 V |
+| D3 / GPIO26 | Q1 "stuck" test jumper: loose end in the − rail = stuck (internal pull-up) |
+| D12 / GPIO4 | Q2 "stuck" test jumper, same |
+| D9 / GPIO2 | the board's LED = Q1 lamp (on = closed) |
+| D8 / GPIO5 | the board's RGB LED = Q2 lamp (red = closed) |
 | 3V3, GND | Breadboard + and − rails |
 
-A0 and A1 are on ADC1. ADC2 shares hardware with Wi-Fi, so it is avoided. A2 (GPIO34) is not used, because on this board it is wired to the battery divider.
+A0 and A1 are on ADC1. ADC2 shares hardware with Wi-Fi, so it is avoided for analog readings (D3 and D12 are only read as digital inputs). A2 (GPIO34) is not used, because on this board it is wired to the battery divider.
 
 ## How a gauge works
 
@@ -71,7 +76,9 @@ The ESP32 ADC reads accurately between about 0.15 V and 2.45 V at its highest at
 | Dead | supply wire unplugged; only the bias is left | about 0.5 V = 0 % (live zero) |
 | Broken wire | long wire from the gauge to the pin unplugged | 0 V = fault |
 
-## Measurements (2026-11-04)
+## Measurements
+
+### With the multimeter (2026-11-04)
 
 I predicted every value on paper before measuring it.
 
@@ -89,33 +96,106 @@ I predicted every value on paper before measuring it.
 
 The two gauges, built from ±1 % resistors, agree within 0.001 V.
 
-## I/O map (planned, not built yet)
+### With the ESP32 (2026-11-05 to 2026-11-07)
 
-The ESP32 will serve these as Modbus TCP. Addresses start at 0.
+| What | Multimeter | ESP32 |
+|---|---|---|
+| Gauge 1 (main), healthy | 1.98 V | 2039–2041 mV (16-sample average) |
+| Gauge 2 (backup), healthy | 1.98 V | 2048–2050 mV (16-sample average) |
+| Gauge 1 (main), dead | 0.488 V | 512–523 mV (single readings) |
+
+- **ADC error.** The ESP32 reads about 30 mV high near 0.5 V and about 60 mV high near 2 V, roughly a 2 % gain error plus a 20 mV offset. Averaging 16 samples removes random noise, not this systematic error. The gauge states are at least 0.5 V apart, so an error of 30–60 mV cannot turn one state into another. I decided not to calibrate.
+- **A short dip.** Unplugging and replugging the main supply wire showed 2030 → 517 → 2030 mV in the log. The ATS in Part 2 must not transfer on a dip like this, only on a long one. Once, both gauges dipped together, which points at the shared 3.3 V rail, not at one gauge.
+- **Temperature.** Room: 20.1 °C. Held in my hand: 21.8 °C after 25 s. The sensor warms up slowly (thermal inertia), so a jump from 20 °C to 80 °C within a second would mean a fault, not real heat. That becomes a plausibility check in Part 3.
+- **Heartbeat.** Read by Python about every 1.2 s, it mostly went up by 1 but sometimes by 2 (for example 19898 → 19900). The reader's loop (a 1 s sleep plus two reads over Wi-Fi) is longer than the ESP32's 1 s tick, and the two clocks are not in step. So the PLC's watchdog must check "did it change within a few seconds", never "did it go up by exactly 1".
+- **Wi-Fi.** DHCP address 192.168.100.48, signal −60 dBm.
+- **Interlock.** With Q2 closed, a close command for Q1 was refused: Q1's contacts did not change within 2 s, and the command coil was reset.
+
+A real line from `tools/modbus_check.py`, with both breakers open:
+
+```
+U_MAIN=2043 mV | U_BACKUP=2050 mV | Temp=19.3 °C | Heartbeat=150 | T_OK=1 | Q1_CLOSED=0 | Q1_OPEN=1 | Q2_CLOSED=0 | Q2_OPEN=1 | Q1_STUCK=0 | Q2_STUCK=0
+```
+
+## Firmware
+
+[firmware/field_node/field_node.ino](firmware/field_node/field_node.ino). Nothing in it uses `delay()`: every job has its own `millis()` timer, so the Modbus server keeps answering all the time.
+
+| How often | What it does |
+|---|---|
+| every loop | serves Modbus, reads the stuck jumpers, handles breaker commands, updates the position contacts and the Q1 lamp |
+| every 100 ms | Q2's RGB lamp |
+| every 500 ms | both gauges, 16-sample average in mV |
+| every 1 s | DS18B20 temperature (non-blocking), T_OK, heartbeat +1 |
+| every 5 s | Wi-Fi status on the serial monitor |
+
+**Temperature quality flag.** If the DS18B20 is unplugged, register 2 keeps the last good value and T_OK goes to 0. So the PLC must check T_OK before it uses the temperature. It is the same idea as the quality bits in IEC 104.
+
+**Breakers.** Each breaker is a small state machine:
+
+```
+            close command               closing time (HR) passed
+  OPEN ──────────────────► CLOSING ─────────────────────────► CLOSED
+   ▲                          │                                  │
+   └────── open command ──────┴──────────────────────────────────┘
+           (instant, wins from any state)
+
+  contacts:  OPEN     CLOSED=0  OPEN=1
+             CLOSING  CLOSED=0  OPEN=0   ← travelling
+             CLOSED   CLOSED=1  OPEN=0
+```
+
+- **Commands are one-shot.** The ESP32 acts on a command coil and puts it back to 0. A coil left at 1 would close the breaker again after every open.
+- **Two position contacts**, so the PLC can tell open, moving and fault apart. Both 0 for longer than the closing time means stuck halfway.
+- **Interlock.** A breaker only starts closing if the other one is fully OPEN. CLOSING counts as not safe: if the check were "the other one is not closed", both breakers could start closing within the same 1.5 s and both end up closed.
+- **Stuck test jumper.** While a breaker's jumper is in GND, that breaker is frozen: close, open and the closing timer are refused. The command coil is still reset, so an old command cannot fire later when the jumper comes out.
+
+**Wi-Fi password.** The sketch includes `secrets.h`, which is not in git. To build it yourself, create `firmware/field_node/secrets.h` with two `const char*` values, `WIFI_SSID` and `WIFI_PASS`.
+
+Built with Arduino IDE 2, ESP32 core 3.3.12 and board "FireBeetle 2 ESP32-E", plus the libraries OneWire 2.3.8, DallasTemperature 4.0.6 and modbus-esp8266 4.1.0.
+
+## Python tools
+
+- [tools/modbus_check.py](tools/modbus_check.py) reads input registers 0–3 and discrete inputs 0–6 every second and prints one line. If the ESP32 is not reachable, it says so and stops.
+- [tools/breaker_cmd.py](tools/breaker_cmd.py): type `c1`/`o1` to close/open Q1 and `c2`/`o2` for Q2.
+
+Setup on Windows, from the repository folder:
+
+```
+py -m venv .venv
+.venv\Scripts\python -m pip install -r requirements.txt
+.venv\Scripts\python tools\modbus_check.py
+```
+
+## I/O map
+
+The ESP32 serves these as Modbus TCP on port 502. Addresses start at 0.
 
 | Table | Address | Tag | Meaning |
 |---|---|---|---|
 | Input register | 0 | U_MAIN | main gauge in mV (500 mV = 0 %, 2000 mV = 100 %; below about 250 mV = broken wire) |
 | Input register | 1 | U_BACKUP | backup gauge in mV, same scale |
-| Input register | 2 | T_XFMR | transformer temperature, signed, 0.1 °C |
-| Input register | 3 | HEARTBEAT | counter, proves the ESP32 is alive |
+| Input register | 2 | T_XFMR | transformer temperature, signed, 0.1 °C; keeps the last good value when T_OK = 0 |
+| Input register | 3 | HEARTBEAT | +1 every second, proves the ESP32 is alive; wraps from 65535 to 0 |
 | Discrete input | 0 | Q1_CLOSED | 1 = Q1 is ON |
 | Discrete input | 1 | Q1_OPEN | 1 = Q1 is OFF |
 | Discrete input | 2 | Q2_CLOSED | 1 = Q2 is ON |
 | Discrete input | 3 | Q2_OPEN | 1 = Q2 is OFF |
 | Discrete input | 4 | T_OK | temperature reading is valid |
-| Discrete input | 5 | Q1_STUCK | test jumper on D3 (test only) |
-| Discrete input | 6 | Q2_STUCK | test jumper on D12 (test only) |
-| Coil | 0 | Q1_CLOSE_CMD | command: close Q1 |
-| Coil | 1 | Q1_OPEN_CMD | command: open Q1 |
-| Coil | 2 | Q2_CLOSE_CMD | command: close Q2 |
-| Coil | 3 | Q2_OPEN_CMD | command: open Q2 |
-| Holding register | 0 | Q1_CLOSE_MS | simulated closing time of Q1 |
-| Holding register | 1 | Q2_CLOSE_MS | simulated closing time of Q2 |
+| Discrete input | 5 | Q1_STUCK | test jumper on D3 is in (test only) |
+| Discrete input | 6 | Q2_STUCK | test jumper on D12 is in (test only) |
+| Coil | 0 | Q1_CLOSE_CMD | command: close Q1 (one-shot, reset by the ESP32) |
+| Coil | 1 | Q1_OPEN_CMD | command: open Q1 (one-shot) |
+| Coil | 2 | Q2_CLOSE_CMD | command: close Q2 (one-shot) |
+| Coil | 3 | Q2_OPEN_CMD | command: open Q2 (one-shot) |
+| Holding register | 0 | Q1_CLOSE_MS | simulated closing time of Q1, starts at 1500 ms |
+| Holding register | 1 | Q2_CLOSE_MS | simulated closing time of Q2, starts at 1500 ms |
 
 Each breaker has two position contacts. Both 1 at the same time, or both 0 for too long, means a fault.
 
 ## What failed
+
+### Hardware (2026-11-04)
 
 1. **The first top resistor was wrong.** I built 14.3k, but that was the value of the top and the bias together, not the top alone. Taking away the bias with 1/R gave 16.19k; the closest from my kit was 10k + 4.7k + 1k = 15.7k.
 2. **Swapped rails.** The FireBeetle's 3V3 and GND wires were in each other's rails. The pin read −0.7 V, and the meter on the rails showed −3.3 V. Fix: swapped them. Lesson: check the rails with the meter before every new layout.
@@ -125,19 +205,36 @@ Each breaker has two position contacts. Both 1 at the same time, or both 0 for t
 6. **The DS18B20 data line jumped between 1.2 and 3.3 V.** The Project 1 program was still on the board and kept talking to the sensor on D2; the meter is too slow to see each pulse, so it showed an average. Proof: with the D2 wire out, a steady 3.3 V.
 7. **Schematic v1 had A0 and A1 wired to GND** (the wires started from the GND end of the 1M resistors), and the 47k went to GND. The electrical rules check (ERC) showed 0 errors, because it checks drawing rules, not what I meant: a wire from an input pin to GND is legal. Fix: redrawn to match the breadboard.
 
+### Code (2026-11-05 to 2026-11-07)
+
+8. **Two timers shared one "last time" variable.** The 500 ms gauge timer reset it every time, so the 1 s temperature timer never fired. Fix: one variable per timer.
+9. **Divided by 16 twice** in the averaging, which gave about 127 mV instead of about 2040. Fix: one division, and the two 16s replaced by one constant, `SAMPLES`.
+10. **A missing `;` in `secrets.h`.** The errors appeared inside an ESP32 system file (`esp_event_base.h`), not in my code. Lesson: read the first error, and check the end of the file that was included just before it.
+11. **`%u` in `printf` for a `uint32_t`.** On this compiler `uint32_t` is a `long unsigned int`, so it needs `%lu`.
+12. **pymodbus 3.16 wants `count=` by name.** `read_input_registers(0, 4)` gave a TypeError. Old tutorials also use `unit=` or `slave=`; in this version it is `device_id=`.
+13. **Windows tooling.** `python` was a dead Windows shortcut (an App Execution Alias), so pip seemed broken; `py` works. Then PyCharm made a second virtual environment without pymodbus, which gave "No module named 'pymodbus'". Fix: one environment, `.venv`.
+14. **The receipt check would have warned on every good boot.** In `!a | b | c | d` the `!` only covers the first name. The compiler gave no warning, because the grammar was fine.
+15. **Position contacts took several tries.** Writing the breaker state itself into a contact bit would have shown Q1_CLOSED = 1 while the breaker was still moving. Writing a bit only inside an `if` sets it but never clears it, so after one close and one open both contacts would have stayed at 1, which looks like a fault. Fix: one `if` / `else if` / `else` with a branch per state, writing both contacts on every loop.
+16. **The interlock first went into the reporting code**, not into the close command. The closed outputs would then never have been written, and "refused" would have printed on every loop. Fix: the interlock belongs where the breaker decides whether to start closing.
+17. **The RGB lamp's `else` sat outside its 100 ms timer**, so "off" would have been written on almost every loop. Fix: the whole if/else inside the timer.
+
 ## What I learnt
 
 What I learnt today is that building hardware is so interesting, and after building the hardware, making the schematic design is so easy: you just look at your hardware setup, then copy it to KiCad. (Mistake 7 shows the copy still needs checking.)
 
 ## How this was made
 
-I built, measured and drew everything myself. Claude (an AI tutor) explained the ideas, checked my work, cleaned up the KiCad schematic (title block, notes, project symbol library, SAG test point) and turned my notes into this README.
+I built, measured and drew everything myself, and I wrote the firmware and the Python scripts. Claude (an AI tutor) explained the ideas, reviewed and compiled my code, ran checks on the board over Modbus, made the git commits, cleaned up the KiCad schematic (title block, notes, project symbol library, SAG test point) and turned my notes into this README. I also asked other AI chatbots for explanations and help while coding.
 
 ## Repository layout
 
 ```
 README.md
+requirements.txt                    Python packages for tools/
 docs/transformer-point.svg          schematic picture for this page
 hardware/transformer-point.pdf      schematic, PDF
 hardware/transformer-point/         KiCad 10 project
+firmware/field_node/                ESP32 sketch (secrets.h stays local)
+tools/modbus_check.py               reads the field node every second
+tools/breaker_cmd.py                sends Q1/Q2 close and open commands
 ```
