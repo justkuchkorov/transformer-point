@@ -18,7 +18,9 @@ unsigned long lastTimeWifi=0;
 unsigned long lastTimeVolt=0;
 const int SAMPLES=16;
 
-bool q1ClosedState=false;
+enum BreakerState{BRK_OPEN, BRK_CLOSING, BRK_CLOSED};
+BreakerState q1State=BRK_OPEN;
+unsigned long q1CloseStart=0;
 
 uint32_t readGaugeMv(uint8_t pin){
   uint32_t sumbox=0;
@@ -40,7 +42,7 @@ void setup() {
   bool iregOK=mb.addIreg(0,0,4);
   bool istsOK=mb.addIsts(0,0,7);
   bool coilOK=mb.addCoil(0,0,4);
-  bool hregOK=mb.addHreg(0,0,2);
+  bool hregOK=mb.addHreg(0,1500,2);
 
   if(!iregOK | !istsOK | !coilOK | !hregOK){
     Serial.println("WARNING: Modbus I/O Map configuration failed!");
@@ -59,22 +61,40 @@ void setup() {
 void loop() {
   mb.task();
 
+  unsigned long now=millis();
+
   if(mb.Coil(0)==1){
-    q1ClosedState=true;
+    if(q1State==BRK_OPEN){
+      q1State=BRK_CLOSING;
+      q1CloseStart=now;
+    }
     mb.Coil(0,0);
   }
   
+  if(q1State==BRK_CLOSING && now-q1CloseStart>=mb.Hreg(0)){
+    q1State=BRK_CLOSED;
+  }
+
   if(mb.Coil(1)==1){
-    q1ClosedState=false;
+    q1State=BRK_OPEN;
     mb.Coil(1,0);
   }
 
-  mb.Ists(0, q1ClosedState);
-  mb.Ists(1, !q1ClosedState);
-
-  digitalWrite(D9, q1ClosedState);
-
-  unsigned long now=millis();
+  if (q1State==BRK_CLOSED) {
+    mb.Ists(0,1);
+    mb.Ists(1,0);
+    digitalWrite(D9, q1State);
+  }
+  else if (q1State==BRK_OPEN) {
+    mb.Ists(1,1);
+    mb.Ists(0,0);
+    digitalWrite(D9, q1State);
+  }
+  else {
+      mb.Ists(0,0);
+      mb.Ists(1,0);
+      digitalWrite(D9, 0);
+  }
 
   if (now-lastTimeVolt>=500) {
     lastTimeVolt=now;

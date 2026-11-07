@@ -30,9 +30,11 @@ try:
             temperature=raw_temp/10
 
             t_ok = 1 if reaction.bits[4] else 0
+            q1_closed = 1 if reaction.bits[0] else 0
+            q1_open = 1 if reaction.bits[1] else 0
 
             print(
-                f"U_MAIN={u_main} mV | U_BACKUP={u_backup} mV | Temp={temperature:.1f} °C | Heartbeat={heartbeat} | T_OK={t_ok}")
+                f"U_MAIN={u_main} mV | U_BACKUP={u_backup} mV | Temp={temperature:.1f} °C | Heartbeat={heartbeat} | T_OK={t_ok} | Q1_CLOSED={q1_closed} | Q1_OPEN={q1_open}")
 
         time.sleep(1.0)
 
