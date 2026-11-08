@@ -19,3 +19,8 @@ secrets.h
 *.bootinfo
 *.bootinfo_guids
 *.precompilecache
+
+# Transfer logs: only the run shown in the README is kept in git
+logs/*
+!logs/ats_2026-11-08_02-34-49.csv
+!logs/ats_2026-11-08_02-34-49.png

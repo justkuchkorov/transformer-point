@@ -20,8 +20,9 @@ In real life, we may have some electricity problems. We have a main supply and a
 ## Status
 
 - **2026-11-04: Part 1 hardware done.** Both gauges built and measured, DS18B20 wired and checked, KiCad schematic drawn.
-- **2026-11-07: Part 1 code done.** The ESP32 reads both gauges and the DS18B20, simulates breakers Q1 and Q2 (closing time, position contacts, interlock, stuck test jumpers) and serves everything over Modbus TCP. Two Python tools read it and send it commands. Still to run on the breadboard: the stuck-jumper tests.
-- **Next:** Part 2, the ATS logic in CODESYS.
+- **2026-11-07: Part 1 code done.** The ESP32 reads both gauges and the DS18B20, simulates breakers Q1 and Q2 (closing time, position contacts, interlock, stuck test jumpers) and serves everything over Modbus TCP. Two Python tools read it and send it commands.
+- **2026-11-08: Part 2 done.** A CODESYS SoftPLC runs the ATS in ladder: it transfers to backup after 3 s, returns after 10 s of stable main, ignores short dips and broken gauge wires, and raises alarms for frozen data, a breaker that does not move, and temperature. A Python logger records a transfer to CSV and a second script plots it and measures it. The Q1 stuck jumper was tested here (breaker failure); "stuck halfway" and the Q2 jumper are still to test.
+- **Next:** Part 3, the what-if tests.
 
 ## Safety rules
 
@@ -150,6 +151,8 @@ U_MAIN=2043 mV | U_BACKUP=2050 mV | Temp=19.3 °C | Heartbeat=150 | T_OK=1 | Q1_
 - **Interlock.** A breaker only starts closing if the other one is fully OPEN. CLOSING counts as not safe: if the check were "the other one is not closed", both breakers could start closing within the same 1.5 s and both end up closed.
 - **Stuck test jumper.** While a breaker's jumper is in GND, that breaker is frozen: close, open and the closing timer are refused. The command coil is still reset, so an old command cannot fire later when the jumper comes out.
 
+**Fixed IP.** Since Part 2 the ESP32 always takes 192.168.100.48 (`WiFi.config` before `WiFi.begin`), so the PLC always finds it. If the setting fails, it prints a warning.
+
 **Wi-Fi password.** The sketch includes `secrets.h`, which is not in git. To build it yourself, create `firmware/field_node/secrets.h` with two `const char*` values, `WIFI_SSID` and `WIFI_PASS`.
 
 Built with Arduino IDE 2, ESP32 core 3.3.12 and board "FireBeetle 2 ESP32-E", plus the libraries OneWire 2.3.8, DallasTemperature 4.0.6 and modbus-esp8266 4.1.0.
@@ -157,7 +160,9 @@ Built with Arduino IDE 2, ESP32 core 3.3.12 and board "FireBeetle 2 ESP32-E", pl
 ## Python tools
 
 - [tools/modbus_check.py](tools/modbus_check.py) reads input registers 0–3 and discrete inputs 0–6 every second and prints one line. If the ESP32 is not reachable, it says so and stops.
-- [tools/breaker_cmd.py](tools/breaker_cmd.py): type `c1`/`o1` to close/open Q1 and `c2`/`o2` for Q2.
+- [tools/breaker_cmd.py](tools/breaker_cmd.py): type `c1`/`o1` to close/open Q1 and `c2`/`o2` for Q2. Part 1 only: once the PLC runs, only the PLC commands the breakers.
+- [tools/ats_logger.py](tools/ats_logger.py) reads the PLC's five SCADA registers every 100 ms and writes one CSV row each time to `logs/`, with a new file per run. It flushes every row, so stopping it loses nothing.
+- [tools/plot_log.py](tools/plot_log.py) draws a log (the newest one, or the file you name) and prints the transfer time and both dead times. It saves the picture next to the CSV.
 
 Setup on Windows, from the repository folder:
 
@@ -165,6 +170,8 @@ Setup on Windows, from the repository folder:
 py -m venv .venv
 .venv\Scripts\python -m pip install -r requirements.txt
 .venv\Scripts\python tools\modbus_check.py
+.venv\Scripts\python tools\ats_logger.py
+.venv\Scripts\python tools\plot_log.py
 ```
 
 ## I/O map
@@ -193,6 +200,97 @@ The ESP32 serves these as Modbus TCP on port 502. Addresses start at 0.
 
 Each breaker has two position contacts. Both 1 at the same time, or both 0 for too long, means a fault.
 
+## ATS in ladder (Part 2)
+
+[plc/ats_logic.project](plc/ats_logic.project), made with CODESYS V3.5 SP22 Patch 4. It runs on CODESYS Control Win V3 x64, a SoftPLC on the laptop.
+
+```
+Device (CODESYS Control Win V3 x64)
+├── PLC_PRG     (ladder)   the ATS, networks 1–22
+├── SCADA_MAP   (ST)       copies the results into the PLC's own registers
+└── Ethernet    (the laptop's Wi-Fi, 192.168.100.17)
+    ├── Modbus_TCP_Client
+    │   └── ESP32_Field          192.168.100.48:502, every 200 ms:
+    │                            read input registers 0–3, read discrete inputs 0–6,
+    │                            write coils 0–3; auto-reconnect on
+    └── ModbusTCP_Server_Device  the PLC as a server on port 502: 5 input registers
+                                 for the logger, and later for the IEC 104 gateway
+```
+
+The PLC dials out to the ESP32 and, on its other line, answers the logger. The logger never talks to the ESP32: like a dispatcher in a real substation, it asks the station controller, which already knows the decisions and the alarms.
+
+### The networks
+
+| Networks | Job | How |
+|---|---|---|
+| 1–5 | Is each supply OK, dead, or is its wire broken? | MAIN_OK / BACKUP_OK when ≥ 1700 mV (80 %). MAIN_WIRE_BAD / BACKUP_WIRE_BAD when < 250 mV. MAIN_LOST = not OK **and** the wire is not broken. |
+| 6–7 | Do we want backup? | A TON of 3 s on MAIN_LOST and BACKUP_OK **sets** WANT_BACKUP. A TON of 10 s on MAIN_OK **resets** it. |
+| 8–11 | Move the breakers | Four TP pulses of 500 ms: open the wrong breaker first, and close the right one only when the other one **reads OPEN**. |
+| 12–14 | Is the data alive? | HEARTBEAT is compared with its value from the last cycle. No change for 3 s gives COMMS_LOST. |
+| 15–19 | Did the breaker move? | A command request still waiting after 3 s latches Q1_FAIL or Q2_FAIL. ACK clears both and itself. |
+| 20–22 | Temperature | TEMP_ALARM above 28.0 °C, but only when T_OK. SENSOR_FAULT when T_OK is 0. The comparison is in tenths of a degree, so there is no division. |
+
+Why it is built this way:
+
+- **3 s before transferring.** The 10 kV line upstream has an auto-recloser. After a fault it trips and closes again within about a second, so the lights only blink. The ATS must not jump at a blink.
+- **10 s before returning.** A recloser can close onto the fault again, so main must stay healthy for a while first. Real ATSs wait minutes; 10 s is enough to test it on a desk.
+- **A broken gauge wire never transfers.** It reads near 0 V, but the supply may be fine. Real protection relays block undervoltage tripping on a VT fuse failure for the same reason.
+- **Break before make.** Q2 may close only when Q1's position contact says OPEN, not just "not closed": during the 1.5 s of closing, both contacts are 0. The ESP32 has the same interlock, so a ladder bug cannot connect the two supplies (defence in depth).
+- **Pulses, not held commands.** A TP fires once per rising edge, so a breaker that does not move is not commanded again and again. This is the same idea as a real breaker's anti-pumping relay. 500 ms is longer than the 200 ms Modbus cycle, so the ESP32 always receives at least one command.
+- **Guards.** COMMS_LOST and each breaker's own FAIL bit block its commands. After ACK, the request rises again and the TP sends a new pulse, which is a retry.
+- **It goes back to the right state by itself.** Every cycle it compares where it wants to be with where the breakers are. After the ESP32 restarts with both breakers open, it closes Q1 again with no help.
+
+### Tests (2026-11-07 and 2026-11-08)
+
+| Test | Result |
+|---|---|
+| PLC start, both breakers open, main healthy | Q1 closed by itself after about 1.5 s |
+| Main supply wire out | transfer to backup (timeline below) |
+| Supply wire back | return to main after 10 s |
+| 2 s out, 1 s back, 2 s out | no transfer: the 3 s timer starts from 0 again |
+| Main LONG wire out (broken wire) | ESP32 read 142 mV (meter: 0 V). MAIN_WIRE_BAD, no transfer |
+| RST on the ESP32 | COMMS_LOST after about 3 s. When the ESP32 came back with both breakers open, Q1 closed again by itself. |
+| Q1 stuck jumper in, then main supply wire out | "Q1 OPEN refused", Q1_FAIL, Q2 never closed. Jumper out and ACK: the transfer completed. |
+| DS18B20 between my fingers, then its D2 wire out | TEMP_ALARM above 28.0 °C; SENSOR_FAULT with the wire out |
+
+**Why the broken-wire limit is 250 mV and not 0.** With the wire out, the meter shows 0 V, but the ESP32 reads 142 mV, because its ADC cannot read near zero. With a limit of 50 mV, a broken wire would have counted as a dead supply, and the ATS would have transferred on a false reading.
+
+## PLC registers for SCADA
+
+The PLC serves these on the laptop, port 502. In the CODESYS server device, input registers are PLC outputs (%QW): the PLC writes them, and a client reads them with function code 4.
+
+| Input register | Tag | Meaning |
+|---|---|---|
+| 0 | SC_U_MAIN | main gauge, mV |
+| 1 | SC_U_BACKUP | backup gauge, mV |
+| 2 | SC_T_RAW | temperature, signed, 0.1 °C |
+| 3 | SC_STATE | bits 0–11: Q1_CLOSED, Q1_OPEN, Q2_CLOSED, Q2_OPEN, MAIN_OK, BACKUP_OK, MAIN_LOST, WANT_BACKUP, Q1_CLOSE_CMD, Q1_OPEN_CMD, Q2_CLOSE_CMD, Q2_OPEN_CMD |
+| 4 | SC_ALARM | bits 0–6: COMMS_LOST, Q1_FAIL, Q2_FAIL, TEMP_ALARM, SENSOR_FAULT, MAIN_WIRE_BAD, BACKUP_WIRE_BAD |
+
+Example: on main, steady, SC_STATE = 57 = 1 + 8 + 16 + 32 (Q1_CLOSED, Q2_OPEN, MAIN_OK, BACKUP_OK).
+
+## A transfer, logged
+
+![Transfer log](logs/ats_2026-11-08_02-34-49.png)
+
+From [logs/ats_2026-11-08_02-34-49.csv](logs/ats_2026-11-08_02-34-49.csv): 446 rows, one every 0.100–0.183 s (mean 0.106 s).
+
+| t (s) | What the PLC did | Time since the previous step |
+|---|---|---|
+| 14.12 | sees MAIN_LOST | |
+| 17.11 | WANT_BACKUP, opens Q1 | 2.99 s: the 3 s timer |
+| 17.74 | sees Q1 OPEN, closes Q2 **in the same sample** | 0.63 s: the command goes out and the position comes back |
+| 19.51 | sees Q2 CLOSED | 1.77 s: 1.5 s closing time plus Modbus |
+| | **transfer time** | **5.38 s** |
+| 30.37 | sees main healthy again, for good | |
+| 40.35 | WANT_BACKUP off, opens Q2 | 9.98 s: the 10 s timer |
+| 40.88 | sees Q2 OPEN, closes Q1 | 0.53 s |
+| 42.76 | sees Q1 CLOSED | 1.88 s |
+
+- These times start when the PLC **saw** the change. That is up to about 0.7 s after the wire moved: the ESP32's 500 ms gauge timer plus the 200 ms Modbus cycle. The logger samples about every 0.1 s, so each time is ±0.1 s.
+- **Dead time.** For 1.77 s on the transfer and 1.88 s on the return, both breakers were open (34 rows). I predicted it would never happen. It cannot be zero: with break-before-make, the backup only starts closing after the main breaker is seen open, and then it needs its closing time. Real breakers close in tens of milliseconds; the simulator's 1.5 s makes the gap easy to see.
+- **Main came back twice while on backup**, for 0.5 s and 3.5 s. Both times were shorter than 10 s, so the ATS stayed on backup. It returned only after main had been healthy from 30.37 s to 40.35 s.
+
 ## What failed
 
 ### Hardware (2026-11-04)
@@ -218,13 +316,26 @@ Each breaker has two position contacts. Both 1 at the same time, or both 0 for t
 16. **The interlock first went into the reporting code**, not into the close command. The closed outputs would then never have been written, and "refused" would have printed on every loop. Fix: the interlock belongs where the breaker decides whether to start closing.
 17. **The RGB lamp's `else` sat outside its 100 ms timer**, so "off" would have been written on almost every loop. Fix: the whole if/else inside the timer.
 
+### PLC and logging (2026-11-07 to 2026-11-08)
+
+18. **The ESP32's IP became 255.255.255.0.** I called `WiFi.config` three times with one argument each. With one argument it sets the ESP32's own address, so the last call (the subnet mask) became the IP. Fix: one call with the address, gateway and mask.
+19. **Server Device instead of Server.** For the ESP32 I first added "ModbusTCP Server Device", which makes the PLC itself a server. The ESP32 needed a "Modbus TCP Server" under the client. I kept the first one: it now serves the logger.
+20. **I wrote in the read-only column.** "Current Value" only shows a value. Writing needs "Prepared Value", then Ctrl+F7 (Write Values).
+21. **Logged in does not mean running.** After "Login with download" the application stays in STOP. Inputs still update in STOP, so the values looked alive, but no rung runs. My own rungs gave it away: MAIN_LOST was FALSE although both of its negated contacts should have let power through. F5 starts the program.
+22. **A command left TRUE fires again.** I wrote Q1_CLOSE_CMD TRUE by hand and it stayed TRUE, so the PLC sent "close" every 200 ms. An `o1` from Python then seemed to do nothing, because the next "close", at most 200 ms later, started closing Q1 again. That is pumping. Fix: the ladder sends TP pulses.
+23. **`???` left on the timers' ET outputs** gave C0007 "Expression expected instead of '?'". An unused output must be empty. (Claude had told me `???` was fine.)
+24. **The Modbus connection dropped and never came back.** The PLC values froze at 2042 / 2050 mV while the Arduino serial monitor showed the voltages changing. The CODESYS runtime no longer had a TCP connection to the ESP32. Fix: "Auto-reconnect" on the Modbus TCP Client. Nothing in my ladder noticed the frozen values, which is why I added the heartbeat watchdog.
+25. **A declaration typo made a second variable.** The rungs wrote to the copy, nothing sent it, and Q1 never closed. Because a TP fires only once per rising edge, nothing tried again. Fix: the typo. The breaker-failure alarm now catches a request that gets no answer within 3 s.
+26. **Edited the wrong I/O mapping.** For the SCADA registers I first renamed U_MAIN and the others in the ESP32's mapping and set its read length to 5. The ESP32 has only 4 input registers, so the whole read would have failed. Fix: I undid it and made the mapping in the server device.
+27. **A name on a word and on its bits.** CODESYS refused: "Multiple mapping to an output is not allowed". Fix: names only on the five words; SCADA_MAP fills the bits.
+
 ## What I learnt
 
 What I learnt today is that building hardware is so interesting, and after building the hardware, making the schematic design is so easy: you just look at your hardware setup, then copy it to KiCad. (Mistake 7 shows the copy still needs checking.)
 
 ## How this was made
 
-I built, measured and drew everything myself, and I wrote the firmware and the Python scripts. Claude (an AI tutor) explained the ideas, reviewed and compiled my code, ran checks on the board over Modbus, made the git commits, cleaned up the KiCad schematic (title block, notes, project symbol library, SAG test point) and turned my notes into this README. I also asked other AI chatbots for explanations and help while coding.
+I built, measured and drew everything myself, and I wrote the firmware, the PLC program and the Python scripts. Claude (an AI tutor) explained the ideas, reviewed and compiled my code, ran checks on the board and the PLC over Modbus, measured the transfer times from my CSV log, made the git commits, cleaned up the KiCad schematic (title block, notes, project symbol library, SAG test point) and turned my notes into this README. I also asked other AI chatbots for explanations and help while coding.
 
 ## Repository layout
 
@@ -235,6 +346,10 @@ docs/transformer-point.svg          schematic picture for this page
 hardware/transformer-point.pdf      schematic, PDF
 hardware/transformer-point/         KiCad 10 project
 firmware/field_node/                ESP32 sketch (secrets.h stays local)
+plc/ats_logic.project               CODESYS project: the ATS in ladder, SCADA_MAP in ST
 tools/modbus_check.py               reads the field node every second
-tools/breaker_cmd.py                sends Q1/Q2 close and open commands
+tools/breaker_cmd.py                sends Q1/Q2 close and open commands (Part 1)
+tools/ats_logger.py                 logs the PLC's SCADA registers to CSV
+tools/plot_log.py                   plots a log and measures the transfer
+logs/                               the transfer log shown above (other runs stay local)
 ```
