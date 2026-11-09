@@ -41,6 +41,7 @@ In real life, we may have some electricity problems. We have a main supply and a
 ![Schematic](docs/transformer-point.svg)
 
 PDF: [hardware/transformer-point.pdf](hardware/transformer-point.pdf). KiCad project: [hardware/transformer-point/](hardware/transformer-point/).
+Setup: <img width="2560" height="1438" alt="image" src="https://github.com/user-attachments/assets/0b59869a-7611-4448-a0fd-a0dd2fb31e7b" />
 
 | Pin | Connected to |
 |---|---|
