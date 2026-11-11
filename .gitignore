@@ -11,6 +11,7 @@ secrets.h
 # PyCharm settings and the Python environment are personal to this laptop
 .idea/
 .venv/
+.venv313/
 
 # CODESYS: per-user options, the "project is open" lock file and build caches (all rebuilt from the .project)
 *.opt

@@ -1,0 +1,7 @@
+# IEC 104 gateway and dispatcher (tools/gateway.py, tools/dispatcher.py).
+# c104 2.2.1 has Windows wheels only up to Python 3.13, so these run in their own environment:
+#   py install 3.13
+#   py -V:3.13 -m venv .venv313
+#   .venv313\Scripts\python -m pip install -r requirements-gateway.txt
+c104==2.2.1
+pymodbus==3.16.2
